@@ -1,0 +1,41 @@
+#!/usr/bin/python
+
+import platform
+import os
+import sys
+import socket
+
+def mkdirp(path):
+	if not os.path.exists(path):
+		os.mkdir(path, 0755)
+		print "mkdir", path
+
+if __name__ == "__main__":
+	try:
+		mkdirp("test/log")
+		mkdirp("test/temp")
+		mkdirp("test/temp/Data")
+		mkdirp("test/temp/Btree")
+	except OSError as exc: pass
+
+	# check system information and create SYSTEM
+	f = open('SYSTEM', 'w')
+	f.write("# System configuration \n")
+	f.write("PLATFORM = " + platform.machine() + "\n")
+	f.close()
+	print "generate system info"
+
+	# generate default.conf
+	s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+	s.connect(("google.com", 80))
+	ip = s.getsockname()[0]
+	s.close()
+
+	f = open("default.conf", 'w')
+	f.write("# MonoDB default config \n")
+	f.write("address=" + ip + "\n")
+	f.write("family=ipv4\n")
+	f.write("thread=8\n")
+	f.write("backlog=0\n")
+	f.close()
+	print "generate network configuration"

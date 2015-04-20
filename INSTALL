@@ -1,0 +1,10 @@
+### Cherryforce Installation Guide
+
+The compilation of the project requires a few prerequisite third-part libraries.
+- g++ (sudo apt-get install g++)
+
+Once the above requirements are equipped, it becomes easy to build.
+Just follow the instructions.
+
+$ ./configure
+$ make
